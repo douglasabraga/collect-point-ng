@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NbDialogService } from '@nebular/theme';
+import { Row } from 'ng2-smart-table/lib/lib/data-set/row';
+import { CollectionPoints } from '../../models/collection-points';
+import { CollectionPointsService } from '../../services/collection-points.service';
 
 @Component({
   selector: 'app-collection-points-list',
@@ -6,42 +10,90 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./collection-points-list.component.scss']
 })
 export class CollectionPointsListComponent implements OnInit {
-  constructor() {
-  }
+  
+  collectionPointsList: CollectionPoints[] = []
+  tableCollectionPointsConfig: Object = {}
+
+  constructor(
+    private collectionPointsService: CollectionPointsService,
+    private dialogService: NbDialogService,
+    ) { }
 
   ngOnInit(): void {
+    this.setConfigTableCollectionPoints()
+    this.doSearchCollectionPoints()
   }
 
-  settings = {
-    columns: {
-      id: {
-        title: 'ID'
+  doSearchCollectionPoints() {
+    this.collectionPointsService.getCollectionPoints().subscribe({
+      next: next => {
+        this.collectionPointsList = next
+        console.log(this.collectionPointsList)
       },
-      name: {
-        title: 'Full Name'
+      error: error => { console.log(error) }
+    })
+  }
+
+  onAddCollectionPoint(event: any) {
+    console.log(event)
+    this.collectionPointsService.addCollectionPoint(event.newData).subscribe({
+      next: next => {
+        console.log(next)
       },
-      username: {
-        title: 'User Name'
-      },
-      email: {
-        title: 'Email'
+      error: error => {
+        console.log(error)
       }
+    })
+  }
+
+  onDeleteCollectionPoint(event: any) {
+    if(window.confirm('Deseja Excluir?')) {
+      event.confirm.resolve();
+      console.log(event)
+      this.collectionPointsService.deleteCollectionPoint(event.data.id).subscribe({
+        next: next => {
+          console.log(next)
+          this.doSearchCollectionPoints()
+        },
+        error: error => {
+          console.log(error)
+        }
+      })
     }
-  };
-  
-  source = [
-    {
-      id: 1,
-      name: "Leanne Graham",
-      username: "Bret",
-      email: "Sincere@april.biz"
-    },
-    // ... other rows here
-    {
-      id: 11,
-      name: "Nicholas DuBuque",
-      username: "Nicholas.Stanton",
-      email: "Rey.Padberg@rosamond.biz"
-    }
-  ];
+  }
+
+  setConfigTableCollectionPoints(){
+    this.tableCollectionPointsConfig = {
+      actions: { columnTitle: "Ação", add: false, position: 'right' },
+      add: {
+        addButtonContent: 'ADICIONAR',
+        confirmCreate: true
+      },
+      edit: {
+        editButtonContent: 'EDITAR',
+      },
+      delete: {
+        deleteButtonContent: 'EXCLUIR',
+        confirmDelete: true,
+      },
+      noDataMessage: 'Nenhum usuário Cadastrado',
+      columns: {
+        description: {
+          title: 'Descrição'
+        },
+        cnpj: {
+          title: 'CNPJ'
+        },
+        zipCode: {
+          title: 'CEP'
+        },
+        contryState: {
+          title: 'Cidade/Estado'
+        },
+        registrationDate: {
+          title: 'Data Cadastro'
+        }
+      }
+    };
+  }
 }

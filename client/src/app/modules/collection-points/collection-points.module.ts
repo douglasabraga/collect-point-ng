@@ -4,6 +4,7 @@ import { CollectionPointsListComponent } from './components/collection-points-li
 import { CollectionPointsRoutingModule } from './collection-points-routing.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NbCardModule, NbIconModule, NbInputModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 
 
@@ -15,9 +16,8 @@ import { NbCardModule, NbIconModule, NbInputModule } from '@nebular/theme';
     CommonModule,
     CollectionPointsRoutingModule,
     NbCardModule,
-    NbIconModule,
     NbInputModule,
     Ng2SmartTableModule,
-  ]
+  ],
 })
 export class CollectionPointsModule { }
