@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
-import { Row } from 'ng2-smart-table/lib/lib/data-set/row';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { CollectionPoints } from '../../models/collection-points';
 import { CollectionPointsService } from '../../services/collection-points.service';
+import { CollectionPointsFormComponent } from '../collection-points-form/collection-points-form.component';
 
 @Component({
   selector: 'app-collection-points-list',
@@ -14,9 +14,12 @@ export class CollectionPointsListComponent implements OnInit {
   collectionPointsList: CollectionPoints[] = []
   tableCollectionPointsConfig: Object = {}
 
+  dialogRef: NbDialogRef<CollectionPointsFormComponent>
+
   constructor(
     private collectionPointsService: CollectionPointsService,
     private dialogService: NbDialogService,
+    private toasterService: NbToastrService 
     ) { }
 
   ngOnInit(): void {
@@ -30,44 +33,47 @@ export class CollectionPointsListComponent implements OnInit {
         this.collectionPointsList = next
         console.log(this.collectionPointsList)
       },
-      error: error => { console.log(error) }
-    })
-  }
-
-  onAddCollectionPoint(event: any) {
-    console.log(event)
-    this.collectionPointsService.addCollectionPoint(event.newData).subscribe({
-      next: next => {
-        console.log(next)
-      },
       error: error => {
-        console.log(error)
+        console.error(error);
+        this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
       }
     })
   }
 
   onDeleteCollectionPoint(event: any) {
     if(window.confirm('Deseja Excluir?')) {
+      
       event.confirm.resolve();
       console.log(event)
       this.collectionPointsService.deleteCollectionPoint(event.data.id).subscribe({
         next: next => {
           console.log(next)
+          this.toasterService.success('Sucesso na exclusão do ponto de coleta!', 'Sucesso!')
           this.doSearchCollectionPoints()
         },
         error: error => {
-          console.log(error)
+          console.error(error);
+          this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
         }
       })
     }
   }
 
-  setConfigTableCollectionPoints(){
+  showDialog() {
+    this.dialogRef = this.dialogService.open(CollectionPointsFormComponent, {
+      context: {},
+      closeOnEsc: false,
+      closeOnBackdropClick: false,
+    })
+    this.dialogRef.onClose.subscribe(() => this.doSearchCollectionPoints())
+  }
+
+  setConfigTableCollectionPoints() {
     this.tableCollectionPointsConfig = {
-      actions: { columnTitle: "Ação", add: false, position: 'right' },
-      add: {
-        addButtonContent: 'ADICIONAR',
-        confirmCreate: true
+      actions: {
+        columnTitle: "Ação",
+        add: false,
+        position: 'right'
       },
       edit: {
         editButtonContent: 'EDITAR',
@@ -94,6 +100,6 @@ export class CollectionPointsListComponent implements OnInit {
           title: 'Data Cadastro'
         }
       }
-    };
+    }
   }
 }

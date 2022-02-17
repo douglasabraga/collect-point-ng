@@ -15,5 +15,5 @@ export interface CollectionPoints {
     state: string
     addressComplement: string
     registrationDate: string
-    updateData: string
+    updateDate: string
 }

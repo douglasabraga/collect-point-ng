@@ -1,12 +1,12 @@
 <nb-card>
-    <nb-card-header>
+    <nb-card-header class="aling">
         Lista de Pontos de Coleta
     </nb-card-header>
     <nb-card-body>
+        <button style="margin-bottom: 1rem;"nbButton status="success" (click)="showDialog()">ADICIONAR</button>
         <ng2-smart-table
             [settings]="tableCollectionPointsConfig"
             [source]="collectionPointsList"
-            (createConfirm)="onAddCollectionPoint($event)"
             (deleteConfirm)="onDeleteCollectionPoint($event)"
         ></ng2-smart-table>
     </nb-card-body>
