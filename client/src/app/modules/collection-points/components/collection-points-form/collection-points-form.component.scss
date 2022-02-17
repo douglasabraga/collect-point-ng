@@ -1,0 +1,13 @@
+/*.form-group {
+    margin-bottom: 1rem;
+}
+
+input {
+    margin-top: 0.25rem;
+}*/
+
+.ng-invalid {
+    &.ng-touched {
+        border-color: #f16666
+    }
+}
