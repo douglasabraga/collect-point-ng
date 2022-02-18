@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  API: '/'
+  API: '/',
+  API_ZIP_CODE: '/'
 };

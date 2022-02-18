@@ -62,6 +62,7 @@ export class CollectionPointsListComponent implements OnInit {
   showDialog() {
     this.dialogRef = this.dialogService.open(CollectionPointsFormComponent, {
       context: {},
+      hasScroll: true,
       closeOnEsc: false,
       closeOnBackdropClick: false,
     })
@@ -73,6 +74,8 @@ export class CollectionPointsListComponent implements OnInit {
       actions: {
         columnTitle: "Ação",
         add: false,
+        edit: false,
+        delete: false,
         position: 'right'
       },
       edit: {
@@ -99,7 +102,13 @@ export class CollectionPointsListComponent implements OnInit {
         registrationDate: {
           title: 'Data Cadastro'
         }
-      }
+      },
+      /*customColumn: {
+        columnTitle: 'Actions',
+        type: 'custom',
+        filter: false,
+        renderComponent: TesteComponent,
+      }*/
     }
   }
 }

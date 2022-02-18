@@ -1,13 +1,17 @@
-/*.form-group {
-    margin-bottom: 1rem;
+*{
+    max-width: 95vw; max-height: 95vh
 }
 
-input {
-    margin-top: 0.25rem;
-}*/
+.form-group {
+    margin-bottom: 15px;
+}
 
 .ng-invalid {
     &.ng-touched {
         border-color: #f16666
     }
+}
+
+nb-card {
+    width: 35vw;
 }

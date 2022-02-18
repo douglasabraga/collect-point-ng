@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API: 'http://localhost:9190'
+  API: 'http://localhost:9190',
+  API_ZIP_CODE: 'https://freterapido.com/cep-rapido/cep'
 };
 
 /*

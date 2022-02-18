@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import { ZipCode } from 'src/app/modules/shared/models/zip-code';
+import { ZipCodeService } from 'src/app/modules/shared/services/zipCode.service';
+import { Validations } from 'src/app/modules/shared/validators/validations';
 import { CollectionPoints } from '../../models/collection-points';
 import { CollectionPointsService } from '../../services/collection-points.service';
 
@@ -11,18 +14,19 @@ import { CollectionPointsService } from '../../services/collection-points.servic
 })
 export class CollectionPointsFormComponent implements OnInit {
   collectionPoint: CollectionPoints
-  form: FormGroup;
+  form: FormGroup
 
   constructor(
     private formBuilder: FormBuilder,
     private collectionPointsService: CollectionPointsService,
+    private zipCodeService: ZipCodeService,
     private collectionPointDialogRef: NbDialogRef<CollectionPointsFormComponent>,
     private toasterService: NbToastrService 
   ) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      cnpj: ['', [Validators.required]],
+      cnpj: ['', [Validators.required, Validations.ValidatorCnpj]],
       companyName: ['', [Validators.required]],
       tradingName: [''],
       stateRegister: ['', [Validators.required]],
@@ -36,15 +40,22 @@ export class CollectionPointsFormComponent implements OnInit {
     })
   }
 
-  createCollectionPoint() {
+  createCollectionPoint(): void {
     console.log(this.form)
 
     if (this.form.invalid) {
       this.setFormInvalid()
-      return;
+      return
     }
 
-    this.collectionPointsService.addCollectionPoint(this.form.value).subscribe({
+    const collectionPoint: CollectionPoints = {
+      ...this.form.value,
+      registrationDate: this.getCurrentDate()
+    }
+
+    console.log(collectionPoint)
+
+    this.collectionPointsService.addCollectionPoint(collectionPoint).subscribe({
       next: next => {
         console.log(next)
         this.toasterService.success('Ponto de coleta inserido com sucesso!', 'Sucesso')
@@ -54,6 +65,40 @@ export class CollectionPointsFormComponent implements OnInit {
         console.error(error);
         this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
       }
+    })
+  }
+
+  getCurrentDate(): Date {
+    return new Date()
+  }
+
+  getZipCode(): void {
+    let zipCode = this.form.get('zipCode')?.value
+    
+    if(!zipCode) return
+    
+    const validZipCode = /^[0-9]{8}$/
+
+    if (validZipCode.test(zipCode)) {
+      this.zipCodeService.getStatusZipCode(zipCode).subscribe({
+        next: (next: ZipCode) => {
+          console.log(next)
+          this.addStatusZipCodeForm(next)
+        },
+        error: error => {
+          this.toasterService.danger('Falha ao preencher o CEP!', 'Atenção: Preenchimento automático')
+          console.error(error)
+        }
+      })
+    }
+  }
+
+  addStatusZipCodeForm(zipCodeStatus: ZipCode): void {
+    this.form.patchValue({
+      street: zipCodeStatus.logradouro,
+      neighborhood: zipCodeStatus.bairro,
+      state: zipCodeStatus.uf,
+      city: zipCodeStatus.localidade
     })
   }
 
