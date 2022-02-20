@@ -3,10 +3,11 @@ import { AbstractControl } from "@angular/forms";
 export class Validations {
     static ValidatorCnpj(control: AbstractControl) {
         let size, numbers, sum, digits, position, result
+        const objValidatorCnpj = { 'invalidCnpj': true, 'msg': 'Este CNPJ é inválido' }
         const cnpj = control.value
 
-        if (cnpj == '') return { 'validCnpj': true }
-        if (cnpj.length != 14) return { 'validCnpj': true }
+        if (!cnpj) return objValidatorCnpj
+        if (cnpj.length != 14) return objValidatorCnpj
     
         // Elimina CNPJs invalidos conhecidos
         if (cnpj == "00000000000000" || 
@@ -19,7 +20,7 @@ export class Validations {
             cnpj == "77777777777777" || 
             cnpj == "88888888888888" || 
             cnpj == "99999999999999")
-            return { 'validCnpj': true }
+            return objValidatorCnpj
             
         // Valida DVs
         size = cnpj.length - 2
@@ -35,7 +36,7 @@ export class Validations {
 
         result = sum % 11 < 2 ? 0 : 11 - sum % 11
 
-        if (result != digits.charAt(0)) return { 'validCnpj': true }
+        if (result != digits.charAt(0)) return objValidatorCnpj
             
         size = size + 1
         numbers = cnpj.substring(0,size)
@@ -49,7 +50,7 @@ export class Validations {
 
         result = sum % 11 < 2 ? 0 : 11 - sum % 11
 
-        if (result != digits.charAt(1)) return { 'validCnpj': true }
+        if (result != digits.charAt(1)) return objValidatorCnpj
             
         return null
     }
