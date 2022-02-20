@@ -1,5 +1,6 @@
-export interface CollectionPoints {
-    cnpj: number
+export interface CollectPoint {
+    id: string
+    cnpj: string
     //razaoSocial
     companyName: string
     //nomeFantasia
