@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
-import { CollectionPoints } from '../../models/collection-points';
+import { CollectPoint } from '../../models/collection-points';
 import { CollectionPointsService } from '../../services/collection-points.service';
+import { CollectPointActionCellComponent } from '../collect-point-action-col/collect-point-action-cell.component';
 import { CollectionPointsFormComponent } from '../collection-points-form/collection-points-form.component';
 
 @Component({
@@ -11,7 +13,7 @@ import { CollectionPointsFormComponent } from '../collection-points-form/collect
 })
 export class CollectionPointsListComponent implements OnInit {
   
-  collectionPointsList: CollectionPoints[] = []
+  collectionPointsList: CollectPoint[] = []
   tableCollectionPointsConfig: Object = {}
 
   dialogRef: NbDialogRef<CollectionPointsFormComponent>
@@ -61,7 +63,10 @@ export class CollectionPointsListComponent implements OnInit {
 
   showDialog() {
     this.dialogRef = this.dialogService.open(CollectionPointsFormComponent, {
-      context: {},
+      context: {
+        collectionPoint: Object.assign({}),
+        edit: false
+      },
       hasScroll: true,
       closeOnEsc: false,
       closeOnBackdropClick: false,
@@ -78,13 +83,6 @@ export class CollectionPointsListComponent implements OnInit {
         delete: false,
         position: 'right'
       },
-      edit: {
-        editButtonContent: 'EDITAR',
-      },
-      delete: {
-        deleteButtonContent: 'EXCLUIR',
-        confirmDelete: true,
-      },
       noDataMessage: 'Nenhum usuário Cadastrado',
       columns: {
         description: {
@@ -100,15 +98,22 @@ export class CollectionPointsListComponent implements OnInit {
           title: 'Cidade/Estado'
         },
         registrationDate: {
-          title: 'Data Cadastro'
+          title: 'Ação',
+          filter: false,
+          type: 'custom',
+          renderComponent: CollectPointActionCellComponent,
+          onComponentInitFunction: this.onComponentInitFunction
         }
       },
-      /*customColumn: {
-        columnTitle: 'Actions',
-        type: 'custom',
-        filter: false,
-        renderComponent: TesteComponent,
-      }*/
+      attr: {
+        class: 'table table-bordered'
+      },
     }
+  }
+
+  onComponentInitFunction(instance: CollectPointActionCellComponent) {
+    instance.edit.subscribe({
+      next: (next:any) => console.log(next)
+    })
   }
 }
