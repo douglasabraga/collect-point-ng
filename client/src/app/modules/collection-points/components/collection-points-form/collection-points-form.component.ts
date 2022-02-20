@@ -4,7 +4,7 @@ import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { ZipCode } from 'src/app/modules/shared/models/zip-code';
 import { ZipCodeService } from 'src/app/modules/shared/services/zipCode.service';
 import { Validations } from 'src/app/modules/shared/validators/validations';
-import { CollectionPoints } from '../../models/collection-points';
+import { CollectPoint } from '../../models/collection-points';
 import { CollectionPointsService } from '../../services/collection-points.service';
 
 @Component({
@@ -13,8 +13,11 @@ import { CollectionPointsService } from '../../services/collection-points.servic
   styleUrls: ['./collection-points-form.component.scss']
 })
 export class CollectionPointsFormComponent implements OnInit {
-  collectionPoint: CollectionPoints
+  collectionPoint: CollectPoint
   form: FormGroup
+  edit: boolean
+
+  labelAction: string
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,19 +28,28 @@ export class CollectionPointsFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initializeLabelAction()
+    this.initializeForm(this.collectionPoint)
+  }
+
+  initializeForm(collectPoint: CollectPoint): void {
     this.form = this.formBuilder.group({
-      cnpj: ['', [Validators.required, Validations.ValidatorCnpj]],
-      companyName: ['', [Validators.required]],
-      tradingName: [''],
-      stateRegister: ['', [Validators.required]],
-      zipCode: ['', [Validators.required]],
-      street: ['', [Validators.required]],
-      number: [''],
-      neighborhood: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required, Validators.maxLength(2)]],
-      addressComplement: [''],
+      cnpj: [collectPoint.cnpj, [Validators.required, Validations.ValidatorCnpj]],
+      companyName: [collectPoint.companyName, [Validators.required]],
+      tradingName: [collectPoint.tradingName],
+      stateRegister: [collectPoint.stateRegister, [Validators.required]],
+      zipCode: [collectPoint.zipCode, [Validators.required]],
+      street: [collectPoint.street, [Validators.required]],
+      number: [collectPoint.number],
+      neighborhood: [collectPoint.neighborhood, [Validators.required]],
+      city: [collectPoint.city, [Validators.required]],
+      state: [collectPoint.state, [Validators.required, Validators.maxLength(2)]],
+      addressComplement: [collectPoint.addressComplement],
     })
+  }
+
+  initializeLabelAction():void {
+    this.labelAction = this.edit ? 'Editar':'Inserir'
   }
 
   createCollectionPoint(): void {
@@ -48,14 +60,16 @@ export class CollectionPointsFormComponent implements OnInit {
       return
     }
 
-    const collectionPoint: CollectionPoints = {
+    const newCollectionPoint: CollectPoint = {
       ...this.form.value,
+      id: this.collectionPoint.id,
+      updateDate: '',
       registrationDate: this.getCurrentDate()
     }
 
-    console.log(collectionPoint)
+    console.log(newCollectionPoint)
 
-    this.collectionPointsService.addCollectionPoint(collectionPoint).subscribe({
+    this.collectionPointsService.addCollectionPoint(newCollectionPoint).subscribe({
       next: next => {
         console.log(next)
         this.toasterService.success('Ponto de coleta inserido com sucesso!', 'Sucesso')
