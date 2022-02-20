@@ -3,7 +3,7 @@
         Lista de Pontos de Coleta
     </nb-card-header>
     <nb-card-body>
-        <button style="margin-bottom: 1rem;"nbButton status="success" (click)="showDialog()">ADICIONAR</button>
+        <button class="mb-3" nbButton status="danger" (click)="showDialog()">+ ADICIONAR</button>
         <ng2-smart-table
             [settings]="tableCollectionPointsConfig"
             [source]="collectionPointsList"

@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
+import { CepPipe } from 'src/app/modules/shared/pipes/cep.pipe';
+import { CnpjPipe } from 'src/app/modules/shared/pipes/cnpj.pipe';
 import { CollectPoint } from '../../models/collection-points';
 import { CollectionPointsService } from '../../services/collection-points.service';
-import { CollectPointActionCellComponent } from '../collect-point-action-col/collect-point-action-cell.component';
+import { CollectPointActionCellComponent } from '../collect-point-action-cell/collect-point-action-cell.component';
 import { CollectionPointsFormComponent } from '../collection-points-form/collection-points-form.component';
 
 @Component({
@@ -21,7 +23,10 @@ export class CollectionPointsListComponent implements OnInit {
   constructor(
     private collectionPointsService: CollectionPointsService,
     private dialogService: NbDialogService,
-    private toasterService: NbToastrService 
+    private toasterService: NbToastrService,
+    private datePipe: DatePipe,
+    private cnpjPipe: CnpjPipe,
+    private cepPipe: CepPipe
     ) { }
 
   ngOnInit(): void {
@@ -33,32 +38,12 @@ export class CollectionPointsListComponent implements OnInit {
     this.collectionPointsService.getCollectionPoints().subscribe({
       next: next => {
         this.collectionPointsList = next
-        console.log(this.collectionPointsList)
       },
       error: error => {
         console.error(error);
         this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
       }
     })
-  }
-
-  onDeleteCollectionPoint(event: any) {
-    if(window.confirm('Deseja Excluir?')) {
-      
-      event.confirm.resolve();
-      console.log(event)
-      this.collectionPointsService.deleteCollectionPoint(event.data.id).subscribe({
-        next: next => {
-          console.log(next)
-          this.toasterService.success('Sucesso na exclusão do ponto de coleta!', 'Sucesso!')
-          this.doSearchCollectionPoints()
-        },
-        error: error => {
-          console.error(error);
-          this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
-        }
-      })
-    }
   }
 
   showDialog() {
@@ -71,7 +56,11 @@ export class CollectionPointsListComponent implements OnInit {
       closeOnEsc: false,
       closeOnBackdropClick: false,
     })
-    this.dialogRef.onClose.subscribe(() => this.doSearchCollectionPoints())
+    this.dialogRef.onClose.subscribe({
+      next: (next: boolean) => {
+        if (next) this.doSearchCollectionPoints()
+      }
+    })
   }
 
   setConfigTableCollectionPoints() {
@@ -86,34 +75,54 @@ export class CollectionPointsListComponent implements OnInit {
       noDataMessage: 'Nenhum usuário Cadastrado',
       columns: {
         description: {
-          title: 'Descrição'
+          title: 'Descrição',
+          valuePrepareFunction: (cell: string, row: CollectPoint) =>{
+						if(row.tradingName) return row.tradingName
+            return row.companyName
+            
+					}
         },
         cnpj: {
-          title: 'CNPJ'
+          title: 'CNPJ',
+          valuePrepareFunction: (cell: string) =>{
+            return this.cnpjPipe.transform(cell)
+					}
         },
         zipCode: {
-          title: 'CEP'
+          title: 'CEP',
+          valuePrepareFunction: (cell: string) =>{
+            return this.cepPipe.transform(cell)
+					}
         },
         contryState: {
-          title: 'Cidade/Estado'
+          title: 'Cidade/Estado',
+          valuePrepareFunction: (cell: string, row: CollectPoint) =>{
+						let concatCityState = `${row.city}/${row.state}` 
+            return concatCityState
+					}
         },
         registrationDate: {
+          title: 'Data Cadastro',
+          valuePrepareFunction: (cell: string) =>{
+            if(!cell) return cell
+						let parsedDate = new Date(cell)
+            return this.datePipe.transform(parsedDate,'dd/MM/yyyy HH:mm')
+					}
+        },
+        action: {
           title: 'Ação',
           filter: false,
           type: 'custom',
           renderComponent: CollectPointActionCellComponent,
           onComponentInitFunction: this.onComponentInitFunction
         }
-      },
-      attr: {
-        class: 'table table-bordered'
-      },
+      }
     }
   }
-
   onComponentInitFunction(instance: CollectPointActionCellComponent) {
+    let teste:any
     instance.edit.subscribe({
-      next: (next:any) => console.log(next)
+      next: (next: boolean) => {teste = next}
     })
   }
 }
