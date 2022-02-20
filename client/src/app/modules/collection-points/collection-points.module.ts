@@ -7,11 +7,13 @@ import { NbAlertModule, NbButtonModule, NbCardModule, NbInputModule } from '@neb
 import { CollectionPointsFormComponent } from './components/collection-points-form/collection-points-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
+import { CollectPointActionCellComponent } from './components/collect-point-action-col/collect-point-action-cell.component';
 
 @NgModule({
   declarations: [
     CollectionPointsListComponent,
-    CollectionPointsFormComponent
+    CollectionPointsFormComponent,
+    CollectPointActionCellComponent
   ],
   imports: [
     CommonModule,
