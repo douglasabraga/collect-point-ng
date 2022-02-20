@@ -1,17 +1,14 @@
 *{
-    max-width: 95vw; max-height: 95vh
-}
-
-.form-group {
-    margin-bottom: 15px;
+    max-width: 95vw;
+    max-height: 90vh
 }
 
 .ng-invalid {
     &.ng-touched {
-        border-color: #f16666
+        border-color: #f1d766
     }
 }
 
 nb-card {
-    width: 35vw;
+    width: 45vw;
 }
