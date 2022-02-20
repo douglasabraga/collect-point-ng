@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { CollectPoint } from '../../models/collection-points';
+import { CollectPointActionDeleteComponent } from '../collect-point-action-delete/collect-point-action-delete.component';
 import { CollectionPointsFormComponent } from '../collection-points-form/collection-points-form.component';
 
 @Component({
@@ -11,9 +12,9 @@ import { CollectionPointsFormComponent } from '../collection-points-form/collect
 export class CollectPointActionCellComponent implements OnInit {
 
   @Input() rowData: CollectPoint
-  @Output() edit = new EventEmitter()
+  @Output() edit = new EventEmitter<boolean>()
 
-  dialogRef: NbDialogRef<CollectionPointsFormComponent>
+  dialogRef: NbDialogRef<CollectionPointsFormComponent | CollectPointActionDeleteComponent>
 
   constructor(private dialogService: NbDialogService,) { }
 
@@ -22,11 +23,10 @@ export class CollectPointActionCellComponent implements OnInit {
   }
 
   onEdit(){
-    this.edit.emit(this.rowData)
-    this.showDialog()
+    this.showDialogEdit()
   }
 
-  showDialog() {
+  showDialogEdit() {
     this.dialogRef = this.dialogService.open(CollectionPointsFormComponent, {
       context: {
         collectionPoint: this.rowData,
@@ -36,7 +36,19 @@ export class CollectPointActionCellComponent implements OnInit {
       closeOnEsc: false,
       closeOnBackdropClick: false,
     })
-    //this.dialogRef.onClose.subscribe(() => this.doSearchCollectionPoints())
+    this.dialogRef.onClose.subscribe({next: next => this.edit.emit(next)})
+  }
+
+  showDialogDelete() {
+    this.dialogRef = this.dialogService.open(CollectPointActionDeleteComponent, {
+      context: {
+        idCollectPoint: this.rowData.id,
+      },
+      hasScroll: true,
+      closeOnEsc: false,
+      closeOnBackdropClick: false,
+    })
+    this.dialogRef.onClose.subscribe({next: next => this.edit.emit(next)})
   }
 
 }

@@ -19,13 +19,16 @@ export class CollectionPointsService {
   }
 
   addCollectionPoint(collectionPoint: CollectPoint): Observable<CollectPoint>{
-    console.log(collectionPoint);
     return this.http
       .post<CollectPoint>(`${this.API}/collection-points`, collectionPoint);
   }
 
-  deleteCollectionPoint(idCollectionPoint: number): Observable<CollectPoint>{
-    console.log(idCollectionPoint);
+  editCollectionPoint(collectionPoint: CollectPoint): Observable<CollectPoint>{
+    return this.http
+      .put<CollectPoint>(`${this.API}/collection-points/${collectionPoint.id}`, collectionPoint);
+  }
+
+  deleteCollectionPoint(idCollectionPoint: string): Observable<CollectPoint>{
     return this.http
       .delete<CollectPoint>(`${this.API}/collection-points/${idCollectionPoint}`);
   }

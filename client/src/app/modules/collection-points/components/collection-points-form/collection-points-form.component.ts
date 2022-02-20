@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { ZipCode } from 'src/app/modules/shared/models/zip-code';
 import { ZipCodeService } from 'src/app/modules/shared/services/zipCode.service';
@@ -49,10 +49,11 @@ export class CollectionPointsFormComponent implements OnInit {
   }
 
   initializeLabelAction():void {
-    this.labelAction = this.edit ? 'Editar':'Inserir'
+    this.labelAction = this.edit ? 'Editar' : 'Inserir'
   }
 
-  createCollectionPoint(): void {
+  saveCollectionPoint(): void {
+
     console.log(this.form)
 
     if (this.form.invalid) {
@@ -60,20 +61,42 @@ export class CollectionPointsFormComponent implements OnInit {
       return
     }
 
+    this.edit ? this.editCollectionPoint() : this.createCollectionPoint()
+  }
+
+  createCollectionPoint(): void {
     const newCollectionPoint: CollectPoint = {
       ...this.form.value,
       id: this.collectionPoint.id,
-      updateDate: '',
       registrationDate: this.getCurrentDate()
     }
-
-    console.log(newCollectionPoint)
 
     this.collectionPointsService.addCollectionPoint(newCollectionPoint).subscribe({
       next: next => {
         console.log(next)
         this.toasterService.success('Ponto de coleta inserido com sucesso!', 'Sucesso')
-        this.collectionPointDialogRef.close()
+        this.closeDialog(true)
+      },
+      error: error => {
+        console.error(error);
+        this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
+      }
+    })
+  }
+
+  editCollectionPoint():void {
+    const changeCollectionPoint: CollectPoint = {
+      ...this.form.value,
+      id: this.collectionPoint.id,
+      registrationDate: this.collectionPoint.registrationDate,
+      updateDate: this.getCurrentDate()
+    }
+
+    this.collectionPointsService.editCollectionPoint(changeCollectionPoint).subscribe({
+      next: next => {
+        console.log(next)
+        this.toasterService.success('Ponto de coleta alterado com sucesso!', 'Sucesso')
+        this.closeDialog(true)
       },
       error: error => {
         console.error(error);
@@ -117,18 +140,17 @@ export class CollectionPointsFormComponent implements OnInit {
   }
 
   setFormInvalid(): void {
-    this.toasterService.danger('Verifique se foram preenchidos ou se estão no formato adequado!', 'Atenção: Existem campos inválidos')
-    this.form.get('cnpj')?.markAsTouched()
-    this.form.get('companyName')?.markAsTouched()
-    this.form.get('stateRegister')?.markAsTouched()
-    this.form.get('zipCode')?.markAsTouched()
-    this.form.get('street')?.markAsTouched()
-    this.form.get('neighborhood')?.markAsTouched()
-    this.form.get('city')?.markAsTouched()
-    this.form.get('state')?.markAsTouched()
+    Object.keys(this.form.controls).forEach(el => {
+      const control = this.form.get(el)
+      control?.markAsTouched()
+    })
   }
 
-  closeDialog(): void {
-    this.collectionPointDialogRef.close();
+  isValidTouch(field: FormControl): boolean {
+    return !field.valid && field.touched
+  }
+
+  closeDialog(action: boolean): void {
+    this.collectionPointDialogRef.close(action);
   }
 }

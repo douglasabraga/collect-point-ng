@@ -1,0 +1,15 @@
+<nb-card>
+    <nb-card-header>
+        <div class="d-flex justify-content-between">
+            <h6>Excluir Ponto de coleta</h6>
+            <button type="button" nbButton aria-label="Close" (click)="closeDialog(false)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+       <p>Tem certeza da exclusão do ponto de coleta?</p>
+        <button type="button" nbButton (click)="closeDialog(false)">CANCELAR</button>
+        <button type="submit" class="m-3" nbButton (click)="deleteCollectionPoint()" status="warning">EXCLUIR</button>
+    </nb-card-body>
+</nb-card>
