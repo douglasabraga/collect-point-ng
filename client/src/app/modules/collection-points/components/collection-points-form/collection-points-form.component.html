@@ -1,103 +1,123 @@
 <nb-card>
-  <nb-card-header>Inserir Ponto de Coleta</nb-card-header>
+  <nb-card-header><h5>{{ labelAction }} Ponto de Coleta</h5></nb-card-header>
   <nb-card-body>
     
     <form [formGroup]="form" (ngSubmit)="createCollectionPoint()">
-
-      <div class="form-group">
-        <label for="cnpj" class="label">CNPJ *</label>
-        <input type="text" nbInput fullWidth id="cnpj" placeholder="CNPJ" formControlName="cnpj" mask="00.000.000/0000-00">
-        <div *ngIf="form.controls['cnpj'].touched">
-          <nb-alert *ngIf="!form.controls['cnpj'].getError('required') && form.controls['cnpj'].getError('validCnpj')" status="danger">CNPJ é inválido.</nb-alert>
-          <nb-alert *ngIf="form.controls['cnpj'].getError('required')" status="danger">Esse campo é obrigatório.</nb-alert>
+      <div class="row">
+        <h6 class="text-hint">Informações Gerais</h6>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="cnpj" class="label">CNPJ *</label>
+            <input type="text" nbInput fullWidth id="cnpj" placeholder="CNPJ" formControlName="cnpj" mask="00.000.000/0000-00">
+            <div *ngIf="form.controls['cnpj'].touched">
+              <nb-alert *ngIf="!form.controls['cnpj'].getError('required') && form.controls['cnpj'].getError('invalidCnpj')" status="danger">CNPJ é inválido.</nb-alert>
+              <nb-alert *ngIf="form.controls['cnpj'].getError('required')" status="danger">Esse campo é obrigatório.</nb-alert>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="companyName" class="label">Razão Social *</label>
+            <input type="text" nbInput fullWidth id="companyName" placeholder="Razão Social" formControlName="companyName">
+            <div *ngIf="form.controls['companyName'].touched">
+              <nb-alert *ngIf="form.controls['companyName'].getError('required')" status="danger">Esse campo é obrigatório.</nb-alert>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="form-group">
-        <label for="companyName" class="label">Razão Social *</label>
-        <input type="text" nbInput fullWidth id="companyName" placeholder="Razão Social" formControlName="companyName">
-        <div *ngIf="form.controls['companyName'].touched">
-          <nb-alert *ngIf="form.controls['companyName'].getError('required')" status="danger">Esse campo é obrigatório.</nb-alert>
-        </div>
-      </div>
-
+      <div class="row">
+        <div class="col-6">
         <div class="form-group">
           <label for="tradingName" class="label">Nome Fantasia</label>
           <input type="text" nbInput fullWidth id="tradingName" placeholder="Nome Fantasia" formControlName="tradingName">
         </div>
-
+      </div>
+      <div class="col-6">
         <div class="form-group">
           <label for="stateRegister" class="label">Inscrição Estadual *</label>
           <input type="text" nbInput fullWidth id="stateRegister" placeholder="Inscrição Estadual" formControlName="stateRegister">
           <div *ngIf="form.controls['stateRegister'].touched">
-            <nb-alert *ngIf="form.controls['stateRegister'].getError('required')" status="danger">
+            <span *ngIf="form.controls['stateRegister'].getError('required')" class="text-warning caption-2 text-hint">
               Esse campo é obrigatório.
-            </nb-alert>
+            </span>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="zipCode" class="label">CEP *</label>
-          <input type="text" nbInput fullWidth id="zipCode" placeholder="CEP" formControlName="zipCode" mask="00000-000" (blur)="getZipCode()">
-          <div *ngIf="form.controls['zipCode'].touched">
-            <nb-alert *ngIf="form.controls['zipCode'].getError('required')" status="danger">
-              Esse campo é obrigatório.
-            </nb-alert>
+      </div>
+      </div>
+      <div class="row pt-3">
+        <h6 class="text-hint">Endereço</h6>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <label for="zipCode" class="label"><span class="text-danger">*</span> CEP</label>
+            <input type="text" nbInput fullWidth id="zipCode" placeholder="00000-000" formControlName="zipCode" mask="00000-000" (blur)="getZipCode()">
+            <div *ngIf="form.controls['zipCode'].touched">
+              <nb-alert *ngIf="form.controls['zipCode'].getError('required')" status="danger">
+                Esse campo é obrigatório.
+              </nb-alert>
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="street" class="label">Rua *</label>
-          <input type="text" nbInput fullWidth id="street" placeholder="Rua" formControlName="street">
-          <div *ngIf="form.controls['street'].touched">
-            <nb-alert *ngIf="form.controls['street'].getError('required')" status="danger">
-              Esse campo é obrigatório.
-            </nb-alert>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="street" class="label">Rua *</label>
+            <input type="text" nbInput fullWidth id="street" placeholder="Rua" formControlName="street">
+            <div *ngIf="form.controls['street'].touched">
+              <nb-alert *ngIf="form.controls['street'].getError('required')" status="danger">
+                Esse campo é obrigatório.
+              </nb-alert>
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="number" class="label">Number</label>
-          <input type="text" nbInput fullWidth id="number" placeholder="Número" formControlName="number">
-        </div>
-
-        <div class="form-group">
-          <label for="neighborhood" class="label">Bairro *</label>
-          <input type="text" nbInput fullWidth id="neighborhood" placeholder="Bairro" formControlName="neighborhood">
-          <div *ngIf="form.controls['neighborhood'].touched">
-            <nb-alert *ngIf="form.controls['neighborhood'].getError('required')" status="danger">
-              Esse campo é obrigatório.
-            </nb-alert>
+        <div class="col-2">
+          <div class="form-group">
+            <label for="number" class="label">Número</label>
+            <input type="text" nbInput fullWidth id="number" placeholder="Número" formControlName="number">
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="city" class="label">Cidade *</label>
-          <input type="text" nbInput fullWidth id="city" placeholder="Cidade" formControlName="city">
-          <div *ngIf="form.controls['city'].touched">
-            <nb-alert *ngIf="form.controls['city'].getError('required')" status="danger">
-              Esse campo é obrigatório.
-            </nb-alert>
+      </div>
+      <div class="form-group">
+        <label for="neighborhood" class="label">Bairro *</label>
+        <input type="text" nbInput fullWidth id="neighborhood" placeholder="Bairro" formControlName="neighborhood">
+        <div *ngIf="form.controls['neighborhood'].touched">
+          <nb-alert *ngIf="form.controls['neighborhood'].getError('required')" status="danger">
+            Esse campo é obrigatório.
+          </nb-alert>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <div class="form-group">
+            <label for="city" class="label">Cidade *</label>
+            <input type="text" nbInput fullWidth id="city" placeholder="Cidade" formControlName="city">
+            <div *ngIf="form.controls['city'].touched">
+              <nb-alert *ngIf="form.controls['city'].getError('required')" status="danger">
+                Esse campo é obrigatório.
+              </nb-alert>
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="state" class="label">Estado *</label>
-          <input type="text" nbInput fullWidth id="state" placeholder="Estado" formControlName="state" maxlength="2">
-          <div *ngIf="form.controls['state'].touched">
-            <nb-alert *ngIf="form.controls['state'].getError('required')" status="danger">
-              Esse campo é obrigatório.
-            </nb-alert>
+        <div class="col-2">
+          <div class="form-group">
+            <label for="state" class="label">Estado *</label>
+            <input type="text" nbInput fullWidth id="state" placeholder="Estado" formControlName="state" maxlength="2">
+            <div *ngIf="form.controls['state'].touched">
+              <nb-alert *ngIf="form.controls['state'].getError('required')" status="danger">
+                Esse campo é obrigatório.
+              </nb-alert>
+            </div>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="addressComplement" class="label">Complemento</label>
-          <input type="text" nbInput fullWidth id="addressComplement" placeholder="Complemento" formControlName="addressComplement">
-        </div>
-        
-    <button type="button" nbButton status="danger" style="margin-right: 1rem;" (click)="closeDialog()">Cancelar</button>
-    <button type="submit" nbButton status="primary">{{collectionPoint ? 'Editar' : 'Salvar'}}</button>
-  </form>
+      </div>
+      <div class="form-group">
+        <label for="addressComplement" class="label">Complemento</label>
+        <input type="text" nbInput fullWidth id="addressComplement" placeholder="Complemento" formControlName="addressComplement">
+      </div>
+      <button type="button" nbButton (click)="closeDialog()">Cancelar</button>
+      <button type="submit" class="m-3" nbButton status="danger">{{ labelAction.toUpperCase() }}</button>
+    </form>
   </nb-card-body>
 </nb-card>
