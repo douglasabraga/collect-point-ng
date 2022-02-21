@@ -23,7 +23,7 @@ export class CollectPointActionDeleteComponent implements OnInit {
   deleteCollectionPoint():void {
     this.collectionPointsService.deleteCollectionPoint(this.idCollectPoint).subscribe({
       next: next => {
-        console.log(next)
+        //console.log(next)
         this.toasterService.success(InformationalMessages.SUCCESSFUL_DELETING, 'Sucesso')
         this.closeDialog(true)
       },

@@ -19,7 +19,7 @@ export class CollectPointActionCellComponent implements OnInit {
   constructor(private dialogService: NbDialogService,) { }
 
   ngOnInit(): void {
-    console.log(this.rowData)
+    //console.log(this.rowData)
   }
 
   onEdit(){
