@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { ZipCode } from 'src/app/modules/shared/models/zip-code';
 import { ZipCodeService } from 'src/app/modules/shared/services/zipCode.service';
@@ -146,8 +146,8 @@ export class CollectionPointsFormComponent implements OnInit {
     })
   }
 
-  isValidTouch(field: FormControl): boolean {
-    return !field.valid && field.touched
+  isValidTouch(field: AbstractControl): boolean {
+    return field.getError('required') && field.touched
   }
 
   closeDialog(action: boolean): void {
