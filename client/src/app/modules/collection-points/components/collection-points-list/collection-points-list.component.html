@@ -2,11 +2,12 @@
     <nb-card-header class="aling">
         Lista de Pontos de Coleta
     </nb-card-header>
-    <nb-card-body>
-        <button class="mb-3" nbButton status="danger" (click)="showDialog()">+ ADICIONAR</button>
+    <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="giant">
+        <button class="mb-3" nbButton status="danger"(click)="showDialog()">
+            ADICIONAR
+        </button>
         <ng2-smart-table
-            [settings]="tableCollectionPointsConfig"
-            [source]="collectionPointsList"
-        ></ng2-smart-table>
+            [settings]="tableCollectionPointsConfig" [source]="collectionPointsList">
+        </ng2-smart-table>
     </nb-card-body>
 </nb-card>

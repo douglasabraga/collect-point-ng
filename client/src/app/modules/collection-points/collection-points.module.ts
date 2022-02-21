@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CollectionPointsListComponent } from './components/collection-points-list/collection-points-list.component';
 import { CollectionPointsRoutingModule } from './collection-points-routing.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { NbAlertModule, NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NbAlertModule, NbButtonModule, NbCardModule, NbInputModule, NbSpinnerModule } from '@nebular/theme';
 import { CollectionPointsFormComponent } from './components/collection-points-form/collection-points-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
@@ -12,24 +12,25 @@ import { CollectPointActionDeleteComponent } from './components/collect-point-ac
 import { FieldControlErrorComponent } from './components/field-control-error/field-control-error.component';
 
 @NgModule({
-  declarations: [
-    CollectionPointsListComponent,
-    CollectionPointsFormComponent,
-    CollectPointActionCellComponent,
-    CollectPointActionDeleteComponent,
-    FieldControlErrorComponent
-  ],
-  imports: [
-    CommonModule,
-    CollectionPointsRoutingModule,
-    NbCardModule,
-    NbInputModule,
-    Ng2SmartTableModule,
-    NbButtonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxMaskModule.forChild(),
-    NbAlertModule
-  ],
+    declarations: [
+        CollectionPointsListComponent,
+        CollectionPointsFormComponent,
+        CollectPointActionCellComponent,
+        CollectPointActionDeleteComponent,
+        FieldControlErrorComponent
+    ],
+    imports: [
+        CommonModule,
+        CollectionPointsRoutingModule,
+        NbCardModule,
+        NbInputModule,
+        Ng2SmartTableModule,
+        NbButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxMaskModule.forChild(),
+        NbAlertModule,
+        NbSpinnerModule
+    ],
 })
 export class CollectionPointsModule { }
