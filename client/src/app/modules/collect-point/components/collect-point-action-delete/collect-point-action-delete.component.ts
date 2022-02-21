@@ -21,7 +21,7 @@ export class CollectPointActionDeleteComponent implements OnInit {
   ngOnInit(): void { }
 
   deleteCollectionPoint():void {
-    this.collectionPointsService.deleteCollectionPoint(this.idCollectPoint).subscribe({
+    this.collectionPointsService.deleteCollectPoint(this.idCollectPoint).subscribe({
       next: () => {
         this.toasterService.success(InformationalMessages.SUCCESSFUL_DELETING, 'Sucesso')
         this.closeDialog(true)

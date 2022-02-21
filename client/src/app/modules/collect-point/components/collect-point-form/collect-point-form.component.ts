@@ -68,7 +68,7 @@ export class CollectPointFormComponent implements OnInit {
 			registrationDate: this.getCurrentDate()
 		}
 
-		this.collectionPointsService.addCollectionPoint(newCollectionPoint).subscribe({
+		this.collectionPointsService.addCollectPoint(newCollectionPoint).subscribe({
 			next: () => {
 				this.toasterService.success(InformationalMessages.SUCCESSFUL_INSERTING, 'Sucesso')
 				this.closeDialog(true)
@@ -88,7 +88,7 @@ export class CollectPointFormComponent implements OnInit {
 			updateDate: this.getCurrentDate()
 		}
 
-		this.collectionPointsService.editCollectionPoint(changeCollectionPoint).subscribe({
+		this.collectionPointsService.editCollectPoint(changeCollectionPoint).subscribe({
 			next: () => {
 				this.toasterService.success(InformationalMessages.SUCCESSFUL_EDITING, 'Sucesso')
 				this.closeDialog(true)

@@ -13,23 +13,31 @@ export class CollectionPointsService {
 
   constructor(private http: HttpClient) { }
 
-  getCollectionPoints(): Observable<CollectPoint[]> {
-    return this.http
-      .get<CollectPoint[]>(`${this.API}/collection-points`)
-  }
-
-  addCollectionPoint(collectionPoint: CollectPoint): Observable<CollectPoint>{
+  addCollectPoint(collectionPoint: CollectPoint): Observable<CollectPoint>{
     return this.http
       .post<CollectPoint>(`${this.API}/collection-points`, collectionPoint);
   }
 
-  editCollectionPoint(collectionPoint: CollectPoint): Observable<CollectPoint>{
+  editCollectPoint(collectionPoint: CollectPoint): Observable<CollectPoint>{
     return this.http
       .put<CollectPoint>(`${this.API}/collection-points/${collectionPoint.id}`, collectionPoint);
   }
 
-  deleteCollectionPoint(idCollectionPoint: string): Observable<CollectPoint>{
+  deleteCollectPoint(idCollectionPoint: string): Observable<CollectPoint>{
     return this.http
       .delete<CollectPoint>(`${this.API}/collection-points/${idCollectionPoint}`);
+  }
+
+  getCollectPointsByFilter(cnpj: string, companyName: string, tradingName: string): Observable<CollectPoint[]> {
+    let query=''
+    if (cnpj && companyName && tradingName) query = `companyName=${companyName}&tradingName=${tradingName}&cnpj=${cnpj}`
+    else if (companyName && tradingName) query = `companyName=${companyName}&tradingName=${tradingName}`
+    else if (cnpj && companyName) {query = `companyName=${companyName}&cnpj=${cnpj}`}
+    else if (cnpj && tradingName) query = `tradingName=${tradingName}&cnpj=${cnpj}`
+    else if (companyName) query = `companyName=${companyName}`
+    else if (tradingName) query = `tradingName=${tradingName}`
+    else if (cnpj) query = `cnpj=${cnpj}`
+
+    return this.http.get<CollectPoint[]>(`${this.API}/collection-points?${query}`)
   }
 }

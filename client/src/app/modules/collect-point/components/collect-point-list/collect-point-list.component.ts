@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { finalize } from 'rxjs';
@@ -20,8 +21,9 @@ export class CollectPointListComponent implements OnInit {
   
   collectionPointsList: LocalDataSource = new LocalDataSource([])
   tableCollectionPointsConfig: Object = {}
-  loading: boolean = true
+  loading: boolean
   dialogRef: NbDialogRef<CollectPointFormComponent>
+  formFilter: FormGroup
 
   constructor(
     private collectionPointsService: CollectionPointsService,
@@ -29,16 +31,31 @@ export class CollectPointListComponent implements OnInit {
     private toasterService: NbToastrService,
     private datePipe: DatePipe,
     private cnpjPipe: CnpjPipe,
-    private zipCodePipe: ZipCodePipe
+    private zipCodePipe: ZipCodePipe,
+    private formBuilder: FormBuilder,
     ) { }
 
   ngOnInit(): void {
     this.setConfigTableCollectionPoints()
-    this.doSearchCollectionPoints()
+    this.initializeForm()
   }
 
+  initializeForm(): void {
+		this.formFilter = this.formBuilder.group({
+			cnpj: [''],
+			companyName: [''],
+      tradingName: ['']
+		})
+	}
+    
   doSearchCollectionPoints() {
-    this.collectionPointsService.getCollectionPoints().pipe(
+    this.loading = true
+    this.collectionPointsService.getCollectPointsByFilter(
+      this.formFilter.get('cnpj')?.value,
+      this.formFilter.get('companyName')?.value,
+      this.formFilter.get('tradingName')?.value
+    )
+    .pipe(
       finalize(() => this.loading = false)
     )
     .subscribe({
