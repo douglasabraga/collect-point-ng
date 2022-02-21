@@ -10,12 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask'
 import { DatePipe } from '@angular/common';
 import { CnpjPipe } from './modules/shared/pipes/cnpj.pipe';
-import { CepPipe } from './modules/shared/pipes/cep.pipe';
+import { ZipCodePipe } from './modules/shared/pipes/zip-code.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CepPipe,
+    ZipCodePipe,
     CnpjPipe
   ],
   imports: [
@@ -30,7 +30,7 @@ import { CepPipe } from './modules/shared/pipes/cep.pipe';
     NbThemeModule.forRoot({ name: 'default' }),
     NgxMaskModule.forRoot()
   ],
-  providers: [DatePipe, CnpjPipe, CepPipe],
+  providers: [DatePipe, CnpjPipe, ZipCodePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

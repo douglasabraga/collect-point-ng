@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CollectionPointsListComponent } from './components/collection-points-list/collection-points-list.component';
-import { CollectionPointsRoutingModule } from './collection-points-routing.module';
+import { CollectPointRoutingModule } from './collect-point-routing.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NbAlertModule, NbButtonModule, NbCardModule, NbInputModule, NbSpinnerModule } from '@nebular/theme';
-import { CollectionPointsFormComponent } from './components/collection-points-form/collection-points-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { CollectPointActionCellComponent } from './components/collect-point-action-cell/collect-point-action-cell.component';
 import { CollectPointActionDeleteComponent } from './components/collect-point-action-delete/collect-point-action-delete.component';
 import { FieldControlErrorComponent } from './components/field-control-error/field-control-error.component';
+import { CollectPointFormComponent } from './components/collect-point-form/collect-point-form.component';
+import { CollectPointListComponent } from './components/collect-point-list/collect-point-list.component';
 
 @NgModule({
     declarations: [
-        CollectionPointsListComponent,
-        CollectionPointsFormComponent,
+        CollectPointListComponent,
+        CollectPointFormComponent,
         CollectPointActionCellComponent,
         CollectPointActionDeleteComponent,
         FieldControlErrorComponent
     ],
     imports: [
         CommonModule,
-        CollectionPointsRoutingModule,
+        CollectPointRoutingModule,
         NbCardModule,
         NbInputModule,
         Ng2SmartTableModule,
@@ -33,4 +33,4 @@ import { FieldControlErrorComponent } from './components/field-control-error/fie
         NbSpinnerModule
     ],
 })
-export class CollectionPointsModule { }
+export class CollectPointModule { }

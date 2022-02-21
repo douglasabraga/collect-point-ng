@@ -5,10 +5,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/collectionPoints/list', pathMatch: 'full' },
   {
     path: 'collectionPoints',
-    loadChildren: () => import('./modules/collection-points/collection-points.module')
-      .then(m => m.CollectionPointsModule)
-  },
-];
+    loadChildren: () => import('./modules/collect-point/collect-point.module')
+      .then(m => m.CollectPointModule)
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CollectionPointsListComponent } from './components/collection-points-list/collection-points-list.component';
+import { CollectPointListComponent } from './components/collect-point-list/collect-point-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/list', pathMatch: 'full' },
-  { path: 'list', component: CollectionPointsListComponent }
+  { path: 'list', component: CollectPointListComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CollectionPointsRoutingModule { }
+export class CollectPointRoutingModule { }

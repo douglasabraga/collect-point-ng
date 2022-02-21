@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollectionPointsListComponent } from './collection-points-list.component';
+import { CollectPointListComponent } from './collect-point-list.component';
 
 describe('CollectionPointsListComponent', () => {
-  let component: CollectionPointsListComponent;
-  let fixture: ComponentFixture<CollectionPointsListComponent>;
+  let component: CollectPointListComponent;
+  let fixture: ComponentFixture<CollectPointListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CollectionPointsListComponent ]
+      declarations: [ CollectPointListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionPointsListComponent);
+    fixture = TestBed.createComponent(CollectPointListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
-import { CollectPoint } from '../../models/collection-points';
+import { CollectPoint } from '../../models/collect-point';
 import { CollectPointActionDeleteComponent } from '../collect-point-action-delete/collect-point-action-delete.component';
-import { CollectionPointsFormComponent } from '../collection-points-form/collection-points-form.component';
+import { CollectPointFormComponent } from '../collect-point-form/collect-point-form.component';
 
 @Component({
   selector: 'app-collect-point-action-cell',
@@ -12,43 +12,38 @@ import { CollectionPointsFormComponent } from '../collection-points-form/collect
 export class CollectPointActionCellComponent implements OnInit {
 
   @Input() rowData: CollectPoint
-  @Output() edit = new EventEmitter<boolean>()
+  @Output() isToSearch = new EventEmitter<boolean>()
+  dialogRef: NbDialogRef<CollectPointFormComponent | CollectPointActionDeleteComponent>
 
-  dialogRef: NbDialogRef<CollectionPointsFormComponent | CollectPointActionDeleteComponent>
+  constructor(private dialogService: NbDialogService) { }
 
-  constructor(private dialogService: NbDialogService,) { }
-
-  ngOnInit(): void {
-    //console.log(this.rowData)
-  }
-
-  onEdit(){
-    this.showDialogEdit()
-  }
+  ngOnInit(): void { }
 
   showDialogEdit() {
-    this.dialogRef = this.dialogService.open(CollectionPointsFormComponent, {
+    this.dialogRef = this.dialogService.open(CollectPointFormComponent, {
       context: {
         collectionPoint: this.rowData,
         edit: true
       },
-      hasScroll: true,
       closeOnEsc: false,
-      closeOnBackdropClick: false,
+      closeOnBackdropClick: false
     })
-    this.dialogRef.onClose.subscribe({next: next => this.edit.emit(next)})
+    this.dialogRef.onClose.subscribe(
+      isToSearch => this.isToSearch.emit(isToSearch)
+    )
   }
 
   showDialogDelete() {
     this.dialogRef = this.dialogService.open(CollectPointActionDeleteComponent, {
       context: {
-        idCollectPoint: this.rowData.id,
+        idCollectPoint: this.rowData.id
       },
-      hasScroll: true,
       closeOnEsc: false,
-      closeOnBackdropClick: false,
+      closeOnBackdropClick: false
     })
-    this.dialogRef.onClose.subscribe({next: next => this.edit.emit(next)})
+    this.dialogRef.onClose.subscribe(
+      isToSearch => this.isToSearch.emit(isToSearch)
+    )
   }
 
 }

@@ -2,27 +2,26 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
-import { delay, finalize } from 'rxjs';
+import { finalize } from 'rxjs';
 import { InformationalMessages } from 'src/app/modules/shared/enums/informational-messages.enum';
-import { CepPipe } from 'src/app/modules/shared/pipes/cep.pipe';
 import { CnpjPipe } from 'src/app/modules/shared/pipes/cnpj.pipe';
-import { CollectPoint } from '../../models/collection-points';
-import { CollectionPointsService } from '../../services/collection-points.service';
+import { ZipCodePipe } from 'src/app/modules/shared/pipes/zip-code.pipe';
+import { CollectPoint } from '../../models/collect-point';
+import { CollectionPointsService } from '../../services/collect-point.service';
 import { CollectPointActionCellComponent } from '../collect-point-action-cell/collect-point-action-cell.component';
-import { CollectionPointsFormComponent } from '../collection-points-form/collection-points-form.component';
+import { CollectPointFormComponent } from '../collect-point-form/collect-point-form.component';
 
 @Component({
-  selector: 'app-collection-points-list',
-  templateUrl: './collection-points-list.component.html',
-  styleUrls: ['./collection-points-list.component.scss']
+  selector: 'app-collect-point-list',
+  templateUrl: './collect-point-list.component.html',
+  styleUrls: ['./collect-point-list.component.scss']
 })
-export class CollectionPointsListComponent implements OnInit {
+export class CollectPointListComponent implements OnInit {
   
   collectionPointsList: LocalDataSource = new LocalDataSource([])
   tableCollectionPointsConfig: Object = {}
-  loading:boolean = true
-
-  dialogRef: NbDialogRef<CollectionPointsFormComponent>
+  loading: boolean = true
+  dialogRef: NbDialogRef<CollectPointFormComponent>
 
   constructor(
     private collectionPointsService: CollectionPointsService,
@@ -30,7 +29,7 @@ export class CollectionPointsListComponent implements OnInit {
     private toasterService: NbToastrService,
     private datePipe: DatePipe,
     private cnpjPipe: CnpjPipe,
-    private cepPipe: CepPipe
+    private zipCodePipe: ZipCodePipe
     ) { }
 
   ngOnInit(): void {
@@ -43,31 +42,26 @@ export class CollectionPointsListComponent implements OnInit {
       finalize(() => this.loading = false)
     )
     .subscribe({
-      next: next => {
-        this.collectionPointsList = new LocalDataSource(next)
-      },
+      next: next => this.collectionPointsList = new LocalDataSource(next),
       error: error => {
-        console.error(error);
+        console.error(error)
         this.toasterService.warning(InformationalMessages.GENERIC_ERROR, 'Atenção')
       }
     })
   }
 
   showDialog() {
-    this.dialogRef = this.dialogService.open(CollectionPointsFormComponent, {
+    this.dialogRef = this.dialogService.open(CollectPointFormComponent, {
       context: {
         collectionPoint: Object.assign({}),
         edit: false
       },
-      hasScroll: true,
       closeOnEsc: false,
-      closeOnBackdropClick: false,
+      closeOnBackdropClick: false
     })
-    this.dialogRef.onClose.subscribe({
-      next: (next: boolean) => {
-        if (next) this.doSearchCollectionPoints()
-      }
-    })
+    this.dialogRef.onClose.subscribe(
+        isToSearch => isToSearch && this.doSearchCollectionPoints()
+    )
   }
 
   setConfigTableCollectionPoints() {
@@ -77,26 +71,25 @@ export class CollectionPointsListComponent implements OnInit {
       columns: {
         description: {
           title: 'Descrição',
+          filter: false,
           valuePrepareFunction: (cell: string, row: CollectPoint) => {
 						if(row.tradingName) return row.tradingName
             return row.companyName
-            
 					}
         },
         cnpj: {
           title: 'CNPJ',
-          valuePrepareFunction: (cell: string) => {
-            return this.cnpjPipe.transform(cell)
-					}
+          filter: false,
+          valuePrepareFunction: (cell: string) => this.cnpjPipe.transform(cell)
         },
         zipCode: {
           title: 'CEP',
-          valuePrepareFunction: (cell: string) => {
-            return this.cepPipe.transform(cell)
-					}
+          filter: false,
+          valuePrepareFunction: (cell: string) => this.zipCodePipe.transform(cell)
         },
         contryState: {
           title: 'Cidade/Estado',
+          filter: false,
           valuePrepareFunction: (cell: string, row: CollectPoint) => {
 						let concatCityState = `${row.city}/${row.state}` 
             return concatCityState
@@ -104,6 +97,7 @@ export class CollectionPointsListComponent implements OnInit {
         },
         registrationDate: {
           title: 'Data Cadastro',
+          filter: false,
           valuePrepareFunction: (cell: string) => {
             if(!cell) return cell
 						let parsedDate = new Date(cell)
@@ -111,7 +105,6 @@ export class CollectionPointsListComponent implements OnInit {
 					}
         },
         action: {
-          title: 'Ação',
           filter: false,
           type: 'custom',
           renderComponent: CollectPointActionCellComponent,
@@ -122,11 +115,8 @@ export class CollectionPointsListComponent implements OnInit {
   }
 
   onComponentInitFunction(instance: CollectPointActionCellComponent) {
-    instance.edit.subscribe({
-      next: (next: boolean) => {
-        console.log(next)
-        if (next) this.doSearchCollectionPoints()
-      }
-    })
+    instance.isToSearch.subscribe(
+      isToSearch => isToSearch && this.doSearchCollectionPoints()
+    )
   }
 }

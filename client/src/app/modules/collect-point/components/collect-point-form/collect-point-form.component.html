@@ -7,8 +7,8 @@
 			</button>
 		</div>
 	</nb-card-header>
-	<nb-card-body>
 
+	<nb-card-body>
 		<form [formGroup]="form" (ngSubmit)="saveCollectionPoint()">
 			<div class="row">
 				<h6 class="text-hint">Informações Gerais</h6>
@@ -31,6 +31,7 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-sm-12 col-lg-12 col-xl-6">
 					<div class="form-group">
@@ -48,9 +49,11 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="row pt-3">
 				<h6 class="text-hint">Endereço</h6>
 			</div>
+
 			<div class="row">
 				<div class="col-sm-12 col-lg-12 col-xl-4">
 					<div class="form-group">
@@ -74,13 +77,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<label for="neighborhood" class="label"><span class="text-danger">*</span> Bairro</label>
-					<input type="text" nbInput fullWidth id="neighborhood" placeholder="Bairro" formControlName="neighborhood">
-					<app-field-control-error [control]="form" label="neighborhood"></app-field-control-error>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="neighborhood" class="label"><span class="text-danger">*</span> Bairro</label>
+						<input type="text" nbInput fullWidth id="neighborhood" placeholder="Bairro" formControlName="neighborhood">
+						<app-field-control-error [control]="form" label="neighborhood"></app-field-control-error>
+					</div>
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-sm-12 col-lg-8 col-xl-10">
 					<div class="form-group">
@@ -98,11 +105,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="addressComplement" class="label">Complemento</label>
-				<input type="text" nbInput fullWidth id="addressComplement" placeholder="Complemento"
-					formControlName="addressComplement">
+
+			<div class="row">
+				<div class="form-group">
+					<label for="addressComplement" class="label">Complemento</label>
+					<input type="text" nbInput fullWidth id="addressComplement" placeholder="Complemento"
+						formControlName="addressComplement">
+				</div>
 			</div>
+			
 			<button type="button" nbButton (click)="closeDialog(false)">CANCELAR</button>
 			<button type="submit" class="m-3" nbButton status="danger">SALVAR</button>
 		</form>

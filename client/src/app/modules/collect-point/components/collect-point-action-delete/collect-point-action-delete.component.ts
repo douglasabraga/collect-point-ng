@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { InformationalMessages } from 'src/app/modules/shared/enums/informational-messages.enum';
-import { CollectionPointsService } from '../../services/collection-points.service';
+import { CollectionPointsService } from '../../services/collect-point.service';
 
 @Component({
   selector: 'app-collect-point-action-delete',
@@ -22,8 +22,7 @@ export class CollectPointActionDeleteComponent implements OnInit {
 
   deleteCollectionPoint():void {
     this.collectionPointsService.deleteCollectionPoint(this.idCollectPoint).subscribe({
-      next: next => {
-        //console.log(next)
+      next: () => {
         this.toasterService.success(InformationalMessages.SUCCESSFUL_DELETING, 'Sucesso')
         this.closeDialog(true)
       },
@@ -35,7 +34,7 @@ export class CollectPointActionDeleteComponent implements OnInit {
   }
 
   closeDialog(action: boolean): void {
-    this.collectionPointDialogRef.close(action);
+    this.collectionPointDialogRef.close(action)
   }
 
 }
