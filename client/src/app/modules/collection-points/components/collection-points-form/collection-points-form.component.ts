@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import { InformationalMessages } from 'src/app/modules/shared/enums/informational-messages.enum';
 import { ZipCode } from 'src/app/modules/shared/models/zip-code';
 import { ZipCodeService } from 'src/app/modules/shared/services/zipCode.service';
 import { Validations } from 'src/app/modules/shared/validators/validations';
@@ -74,12 +75,12 @@ export class CollectionPointsFormComponent implements OnInit {
     this.collectionPointsService.addCollectionPoint(newCollectionPoint).subscribe({
       next: next => {
         console.log(next)
-        this.toasterService.success('Ponto de coleta inserido com sucesso!', 'Sucesso')
+        this.toasterService.success(InformationalMessages.SUCCESSFUL_INSERTING, 'Sucesso')
         this.closeDialog(true)
       },
       error: error => {
         console.error(error);
-        this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
+        this.toasterService.warning(InformationalMessages.NOT_FOUND, 'Atenção')
       }
     })
   }
@@ -95,12 +96,12 @@ export class CollectionPointsFormComponent implements OnInit {
     this.collectionPointsService.editCollectionPoint(changeCollectionPoint).subscribe({
       next: next => {
         console.log(next)
-        this.toasterService.success('Ponto de coleta alterado com sucesso!', 'Sucesso')
+        this.toasterService.success(InformationalMessages.SUCCESSFUL_EDITING, 'Sucesso')
         this.closeDialog(true)
       },
       error: error => {
         console.error(error);
-        this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
+        this.toasterService.warning(InformationalMessages.NOT_FOUND, 'Atenção')
       }
     })
   }
@@ -123,7 +124,7 @@ export class CollectionPointsFormComponent implements OnInit {
           this.addStatusZipCodeForm(next)
         },
         error: error => {
-          this.toasterService.danger('Falha ao preencher o CEP!', 'Atenção: Preenchimento automático')
+          this.toasterService.warning(InformationalMessages.NOT_FOUND, 'Atenção')
           console.error(error)
         }
       })

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
+import { InformationalMessages } from 'src/app/modules/shared/enums/informational-messages.enum';
 import { CollectionPointsService } from '../../services/collection-points.service';
 
 @Component({
@@ -23,12 +24,12 @@ export class CollectPointActionDeleteComponent implements OnInit {
     this.collectionPointsService.deleteCollectionPoint(this.idCollectPoint).subscribe({
       next: next => {
         console.log(next)
-        this.toasterService.success('Ponto de coleta excluído com sucesso!', 'Sucesso')
+        this.toasterService.success(InformationalMessages.SUCCESSFUL_DELETING, 'Sucesso')
         this.closeDialog(true)
       },
       error: error => {
         console.error(error);
-        this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
+        this.toasterService.warning(InformationalMessages.GENERIC_ERROR, 'Atenção')
       }
     })
   }

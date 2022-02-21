@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
+import { InformationalMessages } from 'src/app/modules/shared/enums/informational-messages.enum';
 import { CepPipe } from 'src/app/modules/shared/pipes/cep.pipe';
 import { CnpjPipe } from 'src/app/modules/shared/pipes/cnpj.pipe';
 import { CollectPoint } from '../../models/collection-points';
@@ -41,7 +42,7 @@ export class CollectionPointsListComponent implements OnInit {
       },
       error: error => {
         console.error(error);
-        this.toasterService.warning('Ocorreu um erro inesperado!', 'Atenção')
+        this.toasterService.warning(InformationalMessages.GENERIC_ERROR, 'Atenção')
       }
     })
   }
@@ -72,7 +73,7 @@ export class CollectionPointsListComponent implements OnInit {
         delete: false,
         position: 'right'
       },
-      noDataMessage: 'Nenhum usuário Cadastrado',
+      noDataMessage: InformationalMessages.NOT_FOUND,
       columns: {
         description: {
           title: 'Descrição',
