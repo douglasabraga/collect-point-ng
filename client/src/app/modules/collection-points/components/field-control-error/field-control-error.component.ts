@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { InformationalMessages } from 'src/app/modules/shared/enums/informational-messages.enum';
 
 @Component({
@@ -8,13 +9,26 @@ import { InformationalMessages } from 'src/app/modules/shared/enums/informationa
 })
 export class FieldControlErrorComponent implements OnInit {
 
-  @Input() showErrorMessage: boolean
-  @Input() errorMessage: string
+  @Input() control: FormGroup
+  @Input() label: string
 
   constructor() { }
 
   ngOnInit(): void {
-    if(!this.errorMessage) this.errorMessage = InformationalMessages.REQUIRED_FIELD
+  }
+
+  buildError(){
+    const input = this.control.get(this.label)
+
+    if(input && input?.errors && !this.control?.pristine && input?.touched) {
+      if(input?.errors['required']){
+        return InformationalMessages.REQUIRED_FIELD
+      }
+      if(input.errors['invalidCnpj']){
+        console.log(input.errors['invalidCnpj'])
+        return 'CNPJ inválido'
+      }
+    }
   }
 
 }
