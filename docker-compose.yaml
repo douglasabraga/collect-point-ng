@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  backend:
+    build:
+      context: ./server
+    ports:
+      - "9190:9190"
+    volumes:
+      - ./server/data:/app/data
+    command: npm start
+
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - 8081:80
