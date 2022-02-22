@@ -1,0 +1,52 @@
+{
+  "collection-points": [
+    {
+      "cnpj": "75740352000182",
+      "companyName": "EMPRESA 1",
+      "tradingName": "NOME FANTASIA 1",
+      "stateRegister": "765767511",
+      "zipCode": "21765695",
+      "street": "Rua da Liberdade",
+      "number": "212",
+      "neighborhood": "Realengo",
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+      "addressComplement": null,
+      "id": 1,
+      "registrationDate": "2022-02-20T22:47:22.460Z",
+      "updateDate": "2022-02-22T11:44:50.426Z"
+    },
+    {
+      "cnpj": "00330104000164",
+      "companyName": "EMPRESA 2",
+      "tradingName": "",
+      "stateRegister": "777009211",
+      "zipCode": "66025014",
+      "street": "Vila Aimoré",
+      "number": "212",
+      "neighborhood": "Jurunas",
+      "city": "Belém",
+      "state": "PA",
+      "addressComplement": null,
+      "id": 2,
+      "registrationDate": "2022-02-20T22:47:22.460Z",
+      "updateDate": "2022-02-22T10:35:16.535Z"
+    },
+    {
+      "cnpj": "91180268000108",
+      "companyName": "EMPRESA 3",
+      "tradingName": "NOME FANTASIA 3",
+      "stateRegister": "33371121",
+      "zipCode": "90880320",
+      "street": "Beco Quarenta",
+      "number": "221",
+      "neighborhood": "Santa Tereza",
+      "city": "Porto Alegre",
+      "state": "RS",
+      "addressComplement": null,
+      "id": 3,
+      "registrationDate": "2022-02-21T14:49:46.140Z",
+      "updateDate": "2022-02-22T10:34:51.226Z"
+    }
+  ]
+}
