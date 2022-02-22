@@ -6,3 +6,12 @@ services:
       context: ./server
     ports:
       - "9190:9190"
+    volumes:
+      - ./server/db.json:/app/db.json
+    command: npm start
+
+  frontend:
+    build:
+      context: ./client
+    ports:
+      - 8081:80

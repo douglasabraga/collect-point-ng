@@ -7,4 +7,3 @@ RUN npm install
 COPY . .
 
 EXPOSE 9190
-RUN npm start

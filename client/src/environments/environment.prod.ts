@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  API: '/',
-  API_ZIP_CODE: '/'
+  API: 'http://0.0.0.0:9190',
+  API_ZIP_CODE: 'https://freterapido.com/cep-rapido/cep'
 };
