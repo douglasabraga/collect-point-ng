@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -29,15 +29,12 @@ export class CollectionPointsService {
   }
 
   getCollectPointsByFilter(cnpj: string, companyName: string, tradingName: string): Observable<CollectPoint[]> {
-    let query=''
-    if (cnpj && companyName && tradingName) query = `companyName=${companyName}&tradingName=${tradingName}&cnpj=${cnpj}`
-    else if (companyName && tradingName) query = `companyName=${companyName}&tradingName=${tradingName}`
-    else if (cnpj && companyName) {query = `companyName=${companyName}&cnpj=${cnpj}`}
-    else if (cnpj && tradingName) query = `tradingName=${tradingName}&cnpj=${cnpj}`
-    else if (companyName) query = `companyName=${companyName}`
-    else if (tradingName) query = `tradingName=${tradingName}`
-    else if (cnpj) query = `cnpj=${cnpj}`
+    let params = new HttpParams();
 
-    return this.http.get<CollectPoint[]>(`${this.API}/collection-points?${query}`)
+    if (companyName) params = params.append("companyName", companyName);
+    if (tradingName) params = params.append("tradingName", tradingName);
+    if (cnpj) params = params.append("cnpj", cnpj);
+
+    return this.http.get<CollectPoint[]>(`${this.API}/collection-points`, {params: params})
   }
 }

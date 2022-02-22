@@ -7,7 +7,7 @@ services:
     ports:
       - "9190:9190"
     volumes:
-      - ./server/db.json:/app/db.json
+      - ./server/data:/app/data
     command: npm start
 
   frontend:

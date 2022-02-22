@@ -9,15 +9,13 @@ import { CollectPointFormComponent } from '../collect-point-form/collect-point-f
   templateUrl: './collect-point-action-cell.component.html',
   styleUrls: ['./collect-point-action-cell.component.scss']
 })
-export class CollectPointActionCellComponent implements OnInit {
+export class CollectPointActionCellComponent {
 
   @Input() rowData: CollectPoint
   @Output() isToSearch = new EventEmitter<boolean>()
   dialogRef: NbDialogRef<CollectPointFormComponent | CollectPointActionDeleteComponent>
 
   constructor(private dialogService: NbDialogService) { }
-
-  ngOnInit(): void { }
 
   showDialogEdit() {
     this.dialogRef = this.dialogService.open(CollectPointFormComponent, {

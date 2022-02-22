@@ -21,11 +21,9 @@ export class FieldControlErrorComponent {
       if(input?.errors['required']){
         return InformationalMessages.REQUIRED_FIELD
       }
-      if(input.errors['invalidCnpj']){
-        console.log(input.errors['invalidCnpj'])
-        return 'CNPJ inválido'
+      if(input.errors['invalidCnpj'].invalid){
+        return input.errors['invalidCnpj'].message
       }
     }
   }
-
 }

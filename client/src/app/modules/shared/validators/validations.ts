@@ -3,7 +3,7 @@ import { AbstractControl } from "@angular/forms";
 export class Validations {
     static ValidatorCnpj(control: AbstractControl) {
         let size, numbers, sum, digits, position, result
-        const objValidatorCnpj = { invalidCnpj: true, message: 'CNPJ é inválido' }
+        const objValidatorCnpj = { invalidCnpj: {invalid: true, message: 'CNPJ é inválido'} }
         const cnpj = control.value
 
         if (!cnpj) return objValidatorCnpj
@@ -22,7 +22,6 @@ export class Validations {
             cnpj == "99999999999999")
             return objValidatorCnpj
             
-        // Valida DVs
         size = cnpj.length - 2
         numbers = cnpj.substring(0,size)
         digits = cnpj.substring(size)

@@ -32,7 +32,7 @@ export class CollectPointListComponent implements OnInit {
     private datePipe: DatePipe,
     private cnpjPipe: CnpjPipe,
     private zipCodePipe: ZipCodePipe,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
     ) { }
 
   ngOnInit(): void {

@@ -145,10 +145,6 @@ export class CollectPointFormComponent implements OnInit {
 		})
 	}
 
-	isValidTouch(field: AbstractControl): boolean {
-		return field.getError('required') && field.touched
-	}
-
 	closeDialog(action: boolean): void {
 		this.collectionPointDialogRef.close(action)
 	}
