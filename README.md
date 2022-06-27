@@ -1,12 +1,11 @@
-# Projeto FR Frontend Challenge
+# Collect Point
 Este projeto foi criado com:
 - [Angular CLI](https://github.com/angular/angular-cli) versão 13.0.4 para frontend
 - [json-server](https://github.com/typicode/json-server) versão 0.17.0 para backend.
 
 ## Escopo
-Utilizar o framework Angular em sua versão 2 ou superior, sendo de preferência a mais recente para desenvolver
-uma aplicação para gerenciar Pontos de Coleta. Ela deve ser capaz de mostrar os pontos de coleta cadastrados
-em uma tabela, contendo opções para editar e excluir cada um deles. Também deve conter um botão para adicionar novos pontos de coleta.
+Utilizado o framework Angular em sua versão 13, para desenvolveruma aplicação para gerenciar Pontos de Coleta. Exibe os pontos de coleta cadastrados
+em uma tabela, sendo possível editar e excluir cada um deles e adicionar novos pontos de coleta.
 
 ## Tecnologias
 - [Angular CLI 13.0.4](https://github.com/angular/angular-cli)
