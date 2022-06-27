@@ -4,8 +4,8 @@ Este projeto foi criado com:
 - [json-server](https://github.com/typicode/json-server) versão 0.17.0 para backend.
 
 ## Escopo
-Utilizado o framework Angular em sua versão 13, para desenvolveruma aplicação para gerenciar Pontos de Coleta. Exibe os pontos de coleta cadastrados
-em uma tabela, sendo possível editar e excluir cada um deles e adicionar novos pontos de coleta.
+Utilizado o framework Angular em sua versão 13, para desenvolveruma aplicação para gerenciar Pontos de Coleta.
+Exibe os pontos de coleta cadastrados em uma tabela, sendo possível editar e excluir cada um deles e adicionar novos pontos de coleta.
 
 ## Tecnologias
 - [Angular CLI 13.0.4](https://github.com/angular/angular-cli)
